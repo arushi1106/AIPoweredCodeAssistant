@@ -1,1 +1,1 @@
-# AIPowerecCodeAssistant
+# AIPoweredCodeAssistant
