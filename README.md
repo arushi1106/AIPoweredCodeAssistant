@@ -122,7 +122,63 @@ Demonstrates end-to-end functionality through real-world C/C++ code examples and
 - Compared model explanations against manual exploit write-ups
 
 ---
+## Sample Examples
+### Sample 1: Vulnerable Code (Buffer Overflow)
 
+```c
+#include <string.h>
+#include <stdio.h>
+
+int main() {
+    char buffer[10];
+    strcpy(buffer, "ThisIsAVeryLongString");
+    printf("Buffer: %s\n", buffer);
+    return 0;
+}
+```
+
+**Expected Prediction:** VULNERABLE
+
+**Reason:** strcpy() copies data without bounds checking → classic buffer overflow risk.
+
+### Sample 2: Safe Code
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char buffer[20];
+    strncpy(buffer, "Hello", sizeof(buffer) - 1);
+    buffer[sizeof(buffer) - 1] = '\0';
+    printf("Buffer: %s\n", buffer);
+    return 0;
+}
+```
+
+**Expected Prediction:** SAFE
+
+**Reason:** Uses strncpy() with bounds check and null termination → secure buffer handling.
+
+### Sample 3: Vulnerable (Use After Free)
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+int main() {
+    int *ptr = malloc(sizeof(int) * 5);
+    free(ptr);
+    ptr[0] = 10;  // use after free
+    return 0;
+}
+```
+
+**Expected Prediction:** VULNERABLE
+
+**Reason:** he code dereferences and writes to ptr after it has been freed, resulting in a use-after-free vulnerability.
+
+---
 ## Application: Streamlit Interface (app.py)
 
 A user-friendly web UI for on-the-fly code security audits.
@@ -131,3 +187,4 @@ A user-friendly web UI for on-the-fly code security audits.
 
 ```bash
 streamlit run app.py
+```
