@@ -3,7 +3,7 @@ from openai import OpenAI
 import re
 
 # Set your OpenAI API key
-client = OpenAI(api_key= "API KEY")
+client = OpenAI(api_key= "")
 
 # Prompt template
 def create_prompt(code_snippet):
